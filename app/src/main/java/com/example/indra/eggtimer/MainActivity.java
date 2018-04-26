@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     CountDownTimer countDownTimer;
     Button btnCount;
     int second;
-    MediaPlayer mediaPlayer ;
+    MediaPlayer mediaPlayer;
 
 
     boolean isCountingDown = false;
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
         initTimeSeekBar();
 
-        SetTimeSeekBarOnChange();
 
         mediaPlayer = MediaPlayer.create(this, R.raw.horn);
 
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onTick(long l) {
                     timeTextView.setText(secondsToTimeString((int) l / 1000));
-                    second = (int) Math.ceil(l / 1000);
+                    second = (int) Math.floor(l / 1000);
                 }
 
                 @Override
@@ -73,17 +72,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initTimeSeekBar() {
-        timeSeekBar.setMax(1200);
+        timeSeekBar.setMax(600);
 
-        timeSeekBar.incrementProgressBy(15);
-    }
+        timeSeekBar.incrementProgressBy(5);
 
-    private void SetTimeSeekBarOnChange() {
         timeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                i = i / 15;
-                i = i * 15;
+                i = i / 5;
+                i = i * 5;
 
                 second = i;
 
@@ -102,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     private String secondsToTimeString(int second) {
 
         int hours = second / 3600;
@@ -111,6 +109,6 @@ public class MainActivity extends AppCompatActivity {
         remainder = remainder - mins * 60;
         int secs = remainder;
 
-        return String.format("%02d", mins) + ':' + String.format("%02d", secs);
+        return String.format("%01d", mins) + ':' + String.format("%02d", secs);
     }
 }
